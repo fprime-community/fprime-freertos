@@ -8,9 +8,6 @@
 
 add_custom_target("${FPRIME_CURRENT_MODULE}")
 
-# Change this to accomodate how FreeRTOS is being incorporated into the project
-target_use_arduino_libraries("FreeRTOS_SAMD51")
-
 list(APPEND SOURCE_FILES
     "Task.cpp"
     "Mutex.cpp"
