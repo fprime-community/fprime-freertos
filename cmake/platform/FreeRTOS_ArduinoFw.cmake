@@ -9,6 +9,11 @@ set(ARDUINO_PLATFORM_DIR "${FPRIME_PROJECT_ROOT}/fprime-arduino/cmake/platform")
 
 set(CMAKE_EXECUTABLE_SUFFIX "${FPRIME_ARDUINO_EXECUTABLE_SUFFIX}" CACHE INTERNAL "" FORCE)
 
+# Now that we got FreeRTOS_featherM4.cmake to point to this as the platform 
+# file, we want to set the platform back to ArduinoFw so we can utilize the rest
+# of the fprime-arduino utilities
+set(FPRIME_PLATFORM "ArduinoFw")
+
 # Add FPrime OSAL Implementations
 choose_fprime_implementation(Os/File Os_File_Stub)
 choose_fprime_implementation(Os/Queue Os_Generic_PriorityQueue)
