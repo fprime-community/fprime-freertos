@@ -12,20 +12,20 @@ The rest of this README will provide detailed setup instructions for a Linux pla
     - Open Powershell in administrator mode
     - Run Powershell command to install wsl 
         ```sh
-        wsl -–install
+        wsl --install
         ```
     - Restart machine
     - Open Powershell in administrator mode
     - Run Powershell command to configure wsl
         ```sh
-        wsl -–set-default-version 1
+        wsl --set-default-version 1
         ```
         - If you get an error message stating WSL 1 isn’t supported, go to Control Panel -> Programs -> Programs and Features -> Turn Windows Features on or off -> Select box for WSL -> Press Ok -> restart -> rerun set default command above
-    - Run Powershell command 
+    - Run WSL and get linux terminal
+    - Run Linux command 
         ```sh
         sudo apt update && sudo apt upgrade
         ```
-    - Run WSL and get linux terminal
     - Run Linux command to install git
         ```sh 
         sudo apt install git
@@ -64,7 +64,7 @@ The rest of this README will provide detailed setup instructions for a Linux pla
         ```
     - Activate virtual environment. Note: anything done past this point needs the fprime-venv activated.
         ```sh
-        python3 -m venv fprime-venv
+        . fprime-venv/bin/activate
         ```
     - Install fprime-tools
         ```sh
