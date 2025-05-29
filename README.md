@@ -2,7 +2,12 @@
 
 ## Overview
 
-Welcome to fprime-freertos, a port that connects the Operating System Abstraction Layer of the <a href="https://fprime.jpl.nasa.gov/">F' Flight Software Framework</a> with the <a href="https://www.freertos.org/">FreeRTOS</a> open-source RTOS for microcontrollers and small microprocessors.
+Welcome to fprime-freertos, a port that connects the Operating System Abstraction Layer (OSAL) of the <a href="https://fprime.jpl.nasa.gov/">F' Flight Software Framework</a> with the <a href="https://www.freertos.org/">FreeRTOS</a> open-source RTOS for microcontrollers and small microprocessors. This repository is designed to be paired with platform and board specific repositories to run F' systems on a variety of boards. If the board you are trying to run fprime-freertos on already has a reference application and platform repository, I recoomend starting there. The instruction below can help you get started using this port on a board that hasn't been used before and over time you can build and contribute your own board/platform/reference repositories. For more detail, see the relevant repositories for the featherm4-freertos platform:
+
+- <a href=https://github.com/laboratory10/fprime-featherm4-freertos-reference>fprime-featherm4-freertos-reference</a> - an example of a basic build using a specific platform
+    - <a href=https://github.com/laboratory10/fprime-featherm4-freertos>fprime-featherm4-freertos</a> - a platform repository which is defined by a combination of board and OS
+        - <a href=https://github.com/laboratory10/fprime-featherm4>fprime-featherm4</a> - board-specific platform/toolchain/driver files
+        - fprime-freertos (this repository) - a port connecting the F' OSAL to FreeRTOS
  
 While fprime-freertos should be able to be used on a wide variety of systems, it has so far been tested with Linux and ATSAMD51J19 (specifically, the <a href=https://www.adafruit.com/product/3857>Adafruit Feather M4</a>). Platform and Toolchain files are provided for these two targets in this repository, but we encourage you to contribute your own additions!
 
@@ -281,7 +286,10 @@ Before continuing, make sure your current working directory is where you want yo
         ```
     - Make FreeRTOS arduino library configuration changes
         - Open the FreeRTOSConfig.h file wherever your arduino libraries are stored. For me the filepath is /home/username/Arduino/libraries/FreeRTOS_SAMD51/src/FreeRTOSConfig.h
-        - Change config_TOTAL_HEAP_SIZE to 112
+        - Change config_TOTAL_HEAP_SIZE to 112 KB
+            ```.h
+            #define configTOTAL_HEAP_SIZE			( ( size_t ) ( 112 * 1024 ) )
+            ```
         - Also add the following to somewhere in the file:
             ```.h
             #define INCLUDE_xSemaphoreGetMutexHolder 1
@@ -318,6 +326,9 @@ Before continuing, make sure your current working directory is where you want yo
 - Interact with the target via F' Ground Data System
     - Bind and attach the target device to WSL so the serial data can be fed to the GDS using the following Powershell command and the appropriate busid from the usbipd command above.
         ```sh
+        winget install --interactive --exact dorssel.usbipd-win
+        ```
+        ```sh
         usbipd bind --busid 1-9
         ```
         ```sh
@@ -326,10 +337,17 @@ Before continuing, make sure your current working directory is where you want yo
     - For this to succeed, the serial port must not be currently monitored by any other application. Once attached, Windows applications won't be able to access this COM port. If you need to detach it, you can power cycle the board or run the command `usbipd detach --busid 1-9` in Powershell.
     - In the WSL terminal, the following two commands can be optionally used to see that the attch command was successful. It will usually be attached as ttyACM0.
         ```sh
+        sudo apt install usbutils
+        ```
+        ```sh
         lsusb
         ```
         ```sh
         ls /dev/tty*
+        ```
+    - Before being able to have fprime-gds connect to the borad via serial, you must update permission (one time only)
+        ```sh
+        sudo usermod -a -G dialout $USER
         ```
     - Run the GDS with the following linux command:
         ```sh
