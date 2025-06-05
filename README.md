@@ -6,10 +6,12 @@ Welcome to fprime-freertos, a port that connects the Operating System Abstractio
 
 - <a href=https://github.com/laboratory10/fprime-featherm4-freertos-reference>fprime-featherm4-freertos-reference</a> - an example of a basic build using a specific platform
     - <a href=https://github.com/laboratory10/fprime-featherm4-freertos>fprime-featherm4-freertos</a> - a platform repository which is defined by a combination of board and OS
-        - <a href=https://github.com/laboratory10/fprime-featherm4>fprime-featherm4</a> - board-specific platform/toolchain/driver files
+        - <a href=https://github.com/fprime-community/fprime-arduino>fprime-arduino</a> - board-specific platform/toolchain/driver files
         - fprime-freertos (this repository) - a port connecting the F' OSAL to FreeRTOS
  
-While fprime-freertos should be able to be used on a wide variety of systems, it has so far been tested with Linux and ATSAMD51J19 (specifically, the <a href=https://www.adafruit.com/product/3857>Adafruit Feather M4</a>). Platform and Toolchain files are provided for these two targets in this repository, but we encourage you to contribute your own additions!
+While fprime-freertos should be able to be used on a wide variety of systems, it has so far been tested with Linux and ATSAMD51J19 (specifically, the <a href=https://www.adafruit.com/product/3857>Adafruit Feather M4</a>). 
+
+Platform and Toolchain files used to exist in this repository and you can dig them up from commit history to target an M4 board or a linux environment, but the reference repository listed above is the newer way of getting started. The rest of this README is out of date but may still be useful in the future.
 
 The rest of this README will provide detailed setup instructions for a Linux platform build (Section 1) and a featherM4 build (Section 2). Before proceeding, make sure fprime and all of the system requirements are met by following the instructions specified on the <a href=https://fprime.jpl.nasa.gov/latest/getting-started/installing-fprime>Installing F'</a> page or by using the following steps as a guide:
 
