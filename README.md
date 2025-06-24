@@ -4,8 +4,8 @@
 
 Welcome to fprime-freertos, a port that connects the Operating System Abstraction Layer (OSAL) of the <a href="https://fprime.jpl.nasa.gov/">F' Flight Software Framework</a> with the <a href="https://www.freertos.org/">FreeRTOS</a> open-source RTOS for microcontrollers and small microprocessors. This repository is designed to be paired with platform and board specific repositories to run F' systems on a variety of boards. If the board you are trying to run fprime-freertos on already has a reference application and platform repository, I recommend starting there. The instructions below can help you get started using this port on a board that hasn't been used before and over time you can build and contribute your own board/platform/reference repositories. For more detail, see the relevant repositories for the featherm4-freertos platform:
 
-- <a href=https://github.com/laboratory10/fprime-featherm4-freertos-reference>fprime-featherm4-freertos-reference</a> - an example of a basic build using a specific platform
-    - <a href=https://github.com/laboratory10/fprime-featherm4-freertos>fprime-featherm4-freertos</a> - a platform repository which is defined by a combination of board and OS
+- <a href=https://github.com/fprime-community/fprime-featherm4-freertos-reference>fprime-featherm4-freertos-reference</a> - an example of a basic build using a specific platform
+    - <a href=https://github.com/fprime-community/fprime-featherm4-freertos>fprime-featherm4-freertos</a> - a platform repository which is defined by a combination of board and OS
         - <a href=https://github.com/fprime-community/fprime-arduino>fprime-arduino</a> - board-specific platform/toolchain/driver files
         - fprime-freertos (this repository) - a port connecting the F' OSAL to FreeRTOS
  
@@ -115,7 +115,7 @@ For this section, we will adapt the <a href=https://fprime.jpl.nasa.gov/latest/t
 - Add FreeRTOS
     - Add the fprime-freertos repository as a submodule
         ```sh
-        git submodule add https://github.com/laboratory10/fprime-freertos.git
+        git submodule add https://github.com/fprime-community/fprime-freertos.git
         ```
     - Add FreeRTOS kernel as a submodule
         ```sh
@@ -244,7 +244,7 @@ Before continuing, make sure your current working directory is where you want yo
         ```
     - Add the fprime-freertos repository as a submodule
         ```sh
-        git submodule add https://github.com/laboratory10/fprime-freertos.git
+        git submodule add https://github.com/fprime-community/fprime-freertos.git
         ```
     - Install all fprime-arduino requirements
         ```sh
