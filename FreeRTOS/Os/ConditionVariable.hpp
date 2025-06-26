@@ -26,7 +26,7 @@ class FreeRTOSConditionVariable : public ConditionVariableInterface {
 
     //! \brief Wait on the condition variable
     //! \param mutex: The mutex that must be released to wait on condition
-    void wait(Os::Mutex& mutex) override;
+    ConditionVariable::Status pend(Os::Mutex& mutex);
 
     //! \brief Notify a single task waiting on the condition variable
     void notify() override;
