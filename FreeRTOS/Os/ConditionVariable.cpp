@@ -17,16 +17,22 @@ FreeRTOSConditionVariable::~FreeRTOSConditionVariable() {
     vSemaphoreDelete(m_semaphore);
 }
 
-void FreeRTOSConditionVariable::wait(Os::Mutex& mutex) {
+ConditionVariable::Status FreeRTOSConditionVariable::pend(Os::Mutex& mutex) {
     // Release the mutex before waiting for the condition variable
-    mutex.release();
+    if (mutex.release() != Os::MutexInterface::Status::OP_OK) {
+        ConditionVariable::Status::ERROR_OTHER;
+    }
     
     // Block the task and wait for the condition variable to be notified
     BaseType_t result = xSemaphoreTake(m_semaphore, portMAX_DELAY);
     FW_ASSERT(result == pdTRUE);
     
     // Re-acquire the mutex after being notified
-    mutex.take();
+    if (mutex.take() != Os::MutexInterface::Status::OP_OK) {
+        return ConditionVariable::Status::ERROR_OTHER;
+    }
+
+    return ConditionVariable::Status::OP_OK;;
 }
 
 void FreeRTOSConditionVariable::notify() {
