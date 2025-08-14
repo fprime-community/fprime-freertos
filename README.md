@@ -2,13 +2,15 @@
 
 ## Overview
 
-Welcome to fprime-freertos, a port that connects the Operating System Abstraction Layer (OSAL) of the <a href="https://fprime.jpl.nasa.gov/">F' Flight Software Framework</a> with the <a href="https://www.freertos.org/">FreeRTOS</a> open-source RTOS for microcontrollers and small microprocessors. This repository is designed to be paired with platform and board specific repositories to run F' systems on a variety of boards. If the board you are trying to run fprime-freertos on already has a reference application and platform repository, I recommend starting there. The instructions below can help you get started using this port on a board that hasn't been used before and over time you can build and contribute your own board/platform/reference repositories. For more detail, see the relevant repositories for the featherm4-freertos platform:
+Welcome to fprime-freertos, a port that connects the Operating System Abstraction Layer (OSAL) of the <a href="https://fprime.jpl.nasa.gov/">F' Flight Software Framework</a> with the <a href="https://www.freertos.org/">FreeRTOS</a> open-source RTOS for microcontrollers and small microprocessors. This repository is designed to be paired with platform and board specific repositories to run F' systems on a variety of boards. If the board you are trying to run fprime-freertos on already has a reference application and platform repository, I recommend starting there. As example for the featherm4-freertos platform see the following repositories for more detail.
 
 - <a href=https://github.com/fprime-community/fprime-featherm4-freertos-reference>fprime-featherm4-freertos-reference</a> - an example of a basic build using a specific platform
     - <a href=https://github.com/fprime-community/fprime-featherm4-freertos>fprime-featherm4-freertos</a> - a platform repository which is defined by a combination of board and OS
         - <a href=https://github.com/fprime-community/fprime-arduino>fprime-arduino</a> - board-specific platform/toolchain/driver files
         - fprime-freertos (this repository) - a port connecting the F' OSAL to FreeRTOS
- 
+
+THE REST OF THIS README MAY BE OUTDATED, READ THIS PART CAREFULLY. If you are here beause you want to use F' and FreeRTOS on a platform that is already <a href="https://fprime.jpl.nasa.gov/latest/docs/user-manual/framework/supported-platforms/">supported</a>, then you should really find the relevant reference project and not use this README to get setup. If you are trying to get things working on a new and not yet supported platform, the following instructions might be able to help you get things setup on your board but I can't garuntee it will work for you or that I will know how to adjust it for your platform (but you are welcome to ask). So, here is roughly how I got things working back when fprime v3.5.1 was in use.
+
 While fprime-freertos should be able to be used on a wide variety of systems, it has so far been tested with Linux and ATSAMD51J19 (specifically, the <a href=https://www.adafruit.com/product/3857>Adafruit Feather M4</a>). 
 
 Platform and Toolchain files used to exist in this repository and you can dig them up from commit history to target an M4 board or a linux environment, but the reference repository listed above is the newer way of getting started. The rest of this README is out of date but may still be useful in the future.
