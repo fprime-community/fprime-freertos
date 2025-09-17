@@ -1,0 +1,32 @@
+name: 'FreeRTOS CI Setup'
+description: 'Set up FreeRTOS environment for FreeRTOS CI'
+inputs:
+  stage: 
+    description: "Stage of the CI process"
+    required: false
+    default: "all"
+    type: string
+runs:
+  using: "composite"
+  steps:
+    - name: "Install CI tooling"
+      run: |
+        echo "$GITHUB_ACTION_PATH"
+        CI_TOOLS_PATH="$(cd $(dirname "$GITHUB_ACTION_PATH")/../../ci && pwd)"
+        echo "CI Tools Path: $CI_TOOLS_PATH"
+        pip3 install "${CI_TOOLS_PATH}"
+      shell: bash
+    - name: "FreeRTOS Setup"
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=$VIRTUAL_ENV/bin sh
+        pip install arduino-cli-cmake-wrapper
+        arduino-cli config init
+        arduino-cli config add board_manager.additional_urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+        arduino-cli core update-index
+        arduino-cli core install adafruit:samd
+        arduino-cli core install arduino:samd
+        arduino-cli lib install Time
+        arduino-cli lib install FreeRTOS_SAMD51
+        echo "#define INCLUDE_xSemaphoreGetMutexHolder 1" >> $HOME/Arduino/libraries/FreeRTOS_SAMD51/src/FreeRTOSConfig.h
+        sed -i '/#define configTOTAL_HEAP_SIZE.*/#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 95 * 1024 ) )/' $HOME/Arduino/libraries/FreeRTOS_SAMD51/src/FreeRTOSConfig.h
+      shell: bash

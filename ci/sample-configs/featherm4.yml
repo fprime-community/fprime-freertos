@@ -1,0 +1,62 @@
+# Required by the CI system
+deployment-name: ReferenceDeployment
+platform-name: freertos
+test-scripts: 
+  #- lib/fprime/Svc/CmdDispatcher/test/int/test_cmd_dispatcher.py
+  #- lib/fprime/Svc/EventManager/test/int/test_cmd_eventManager.py 
+  - ReferenceDeployment/test/int/test.py
+# FreeRTOS uses custom dictionary path
+dictionary: build-artifacts/FeatherM4_FreeRTOS/ReferenceDeployment/dict/ReferenceDeploymentTopologyDictionary.json
+executable: build-artifacts/FeatherM4_FreeRTOS/ReferenceDeployment/bin/ReferenceDeployment.elf.bin
+archive-path: ./archive.tar.gz
+
+extra-gds-arguments:
+  - --zmq-transport
+  - ipc:///tmp/fprime-server-ci-in
+  - ipc:///tmp/fprime-server-ci-out
+  - --communication-selection
+  - uart
+  - --uart-baud
+  - "115200"
+  - --uart-device
+  - /dev/cu.usbmodem5201
+  - --uart-skip-port-check
+  - --output-unframed-data
+  - "/tmp/unframed"
+  - --gui
+  - none
+  - --framing-selection
+  - fprime
+
+extra-pytest-arguments:
+  - -s
+  - --zmq-transport
+  - ipc:///tmp/fprime-server-ci-in
+  - ipc:///tmp/fprime-server-ci-out
+  - --deployment-config
+  - ReferenceDeployment/test/int/int_config.json
+
+# Plugin CLI arguments
+command-line-options:
+  ci-selection: freertos-ci
+  port: /dev/cu.usbmodem5201
+  unframed-output: /tmp/unframed
+
+# Plugin required keys
+flash-command:
+  #- ~/.arduino15/packages/adafruit/tools/bossac/1.8.0-48-gb176eee/bossac -i -d --port=/dev/tty.usbmodem5201 -U -i --offset=0x4000 -w -v ../build-artifacts/FeatherM4_FreeRTOS/ReferenceDeployment/bin/ReferenceDeployment.elf.bin -R
+  #- ~/Library/Arduino15/packages/adafruit/tools/bossac/1.8.0-48-gb176eee/bossac
+  - bossac
+  - -i
+  - -d
+  - --port
+  #- /dev/tty.usbmodem5201
+  - /dev/cu.usbmodem5201
+  - -U
+  - -i
+  - --offset
+  - "0x4000"
+  - -w
+  - -v
+  - build-artifacts/FeatherM4_FreeRTOS/ReferenceDeployment/bin/ReferenceDeployment.elf.bin
+  - -R
