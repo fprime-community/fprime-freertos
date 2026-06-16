@@ -360,4 +360,3 @@ Before continuing, make sure your current working directory is where you want yo
     - Navigate to <a href=http://127.0.0.1:5000>http://127.0.0.1:5000</a> in a browser or wherever the terminal output shows the GDS UI is available
     - Send a few commands and make sure event and channelized telemetry are updating
     - Congratulations, you have the F' and FreeRTOS running on a physical board!
-

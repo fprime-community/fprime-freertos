@@ -5,6 +5,5 @@
 # MOD_DEPS: (optional) module dependencies
 #
 ####
-
 register_os_implementation("Mutex;ConditionVariable" FreeRTOS)
 register_os_implementation("Task" FreeRTOS)

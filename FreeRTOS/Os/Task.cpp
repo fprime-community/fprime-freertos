@@ -4,6 +4,7 @@
 // ======================================================================
 #include "FreeRTOS/Os/Task.hpp"
 #include <Fw/Types/Assert.hpp>
+#include <new>
 
 namespace Os {
 namespace FreeRTOS {
@@ -34,8 +35,22 @@ void FreeRTOSTask::onStart() {
 
 Os::Task::Status FreeRTOSTask::start(const Arguments& arguments) {
 
-    // Dynamically allocate memory for arguments
-    Arguments* taskArguments = new Arguments(arguments);
+    /*
+     * Allocate memory for task arguments and construct arguments in-place.
+     * This avoids issues on certain FreeRTOS systems: pvPortMalloc may
+     * pause the scheduler and allocates from the FreeRTOS heap. 
+     * Memory cannot be deallocated as arguments are needed until task 
+     * termination *pvPortFree* cannot be called on these arguments for 
+     * the same reason. Noted documentation supporting this note can be seen here:
+     * "If pvParameters is set to the address of a variable then the variable must 
+     * still exist when the created task executes - so it is not valid to pass the 
+     * address of a stack." 
+     */
+    void* const taskArgumentStorage = pvPortMalloc(sizeof(Arguments));
+    if (taskArgumentStorage == nullptr) {
+        return Os::Task::Status::UNKNOWN_ERROR;
+    }
+    Arguments* taskArguments = new (taskArgumentStorage) Arguments(arguments);
 
     // Ensure routine is not null
     FW_ASSERT(arguments.m_routine != nullptr);
@@ -75,7 +90,13 @@ void FreeRTOSTask::resume() {
 }
 
 Os::Task::Status FreeRTOSTask::_delay(const Fw::TimeInterval& interval) {
-    TickType_t ticks = pdMS_TO_TICKS( (interval.getSeconds()*1000) + interval.getUSeconds());
+    const U32 delay_ms =
+        (interval.getSeconds() * 1000U) +
+        ((interval.getUSeconds() + 999U) / 1000U);
+    TickType_t ticks = pdMS_TO_TICKS(delay_ms);
+    if ((ticks == 0U) && ((interval.getSeconds() != 0U) || (interval.getUSeconds() != 0U))) {
+        ticks = 1U;
+    }
     vTaskDelay(ticks);
     return Os::Task::Status::OP_OK;
 }
